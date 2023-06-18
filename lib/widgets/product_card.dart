@@ -4,7 +4,7 @@ import 'package:flutter_ecommerce/model/product_model.dart';
 class ProductCard extends StatelessWidget {
   final ProductElement product;
 
-  const ProductCard({required this.product});
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +17,12 @@ class ProductCard extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.network(
               product.images[0],
               height: 150,
-              width: double.infinity,
+              width: MediaQuery.of(context).size.width * 0.5,
               fit: BoxFit.cover,
             ),
             const SizedBox(height: 8),

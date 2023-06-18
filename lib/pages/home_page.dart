@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/constant/color.dart';
 import 'package:flutter_ecommerce/model/product_model.dart';
+import 'package:flutter_ecommerce/service/category_service.dart';
 import 'package:flutter_ecommerce/service/product_service.dart';
 import 'package:flutter_ecommerce/widgets/product_card.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -13,19 +14,34 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ProductService productService = ProductService();
-  List<ProductElement>? products = [];
+  CategoryService categoryService = CategoryService();
   List<String>? categories = [];
+  final Map<String, List<ProductElement>> _productMap = {};
+
   @override
   void initState() {
-    productService.getProducts().then((value) {
-      for (var element in value!) {}
-      return products = value;
-    });
-    for (var product in products!) {
-      debugPrint("${product.category} ++");
-      categories!.add(product.category);
-    }
+    fetchData();
     super.initState();
+  }
+
+  Future<void> fetchData() async {
+    final retrievedCategories = await categoryService.getCategories();
+    setState(() {
+      categories = retrievedCategories;
+    });
+    for (var category in categories!) {
+      _loadProducts(category);
+    }
+  }
+
+  void _loadProducts(String category) {
+    productService.getProductsOfCategory(category).then((value) {
+      if (value != null) {
+        setState(() {
+          _productMap[category] = value;
+        });
+      }
+    });
   }
 
   @override
@@ -85,20 +101,53 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              // Expanded(
-              //   child: ListView.builder(
-              //     itemCount: products!.length,
-              //     itemBuilder: (context, index) {
-              //       final product = products![index];
-              //       return ProductCard(product: product);
-              //     },
-              //   ),
-              // )
               Expanded(
                 child: ListView.builder(
                   itemCount: categories!.length,
                   itemBuilder: (context, index) {
-                    return Text(categories![index]);
+                    final category = categories![index];
+                    final products = _productMap[category];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            category,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              for (final product in products ?? [])
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, '/product_detail_page',
+                                        arguments: {
+                                          'title': product.title,
+                                          'product': product,
+                                        });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Hero(
+                                      tag: "${product.title}",
+                                      child: ProductCard(product: product),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
                   },
                 ),
               ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/pages/enterance_page.dart';
+import 'package:flutter_ecommerce/pages/login_page.dart';
+import 'package:flutter_ecommerce/pages/search_page.dart';
 
 import '../pages/home_page.dart';
 
@@ -10,11 +13,11 @@ class TabBarWidget extends StatefulWidget {
 }
 
 class _TabBarWidgetState extends State<TabBarWidget> {
-  List<Widget> pages = const [
-    HomePage(),
-    // SearchPage(),
-    // LibraryPage(),
-    // ProfilePage(),
+  List<Widget> pages = [
+    const HomePage(),
+    SearchPage(),
+    const EnterancePage(),
+    const LoginPage(),
   ];
   int _item = 0;
   @override
@@ -35,7 +38,7 @@ class _TabBarWidgetState extends State<TabBarWidget> {
             }),
           },
         ),
-        body: pages[0]);
+        body: pages[_item]);
   }
 
   IgnorePointer ignorePointerMethod(int index, Widget widget) {

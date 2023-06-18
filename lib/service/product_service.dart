@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/constant/api_url.dart';
@@ -23,6 +21,7 @@ class ProductService {
     } catch (e) {
       throw Exception(e);
     }
+    return null;
   }
 
   Future<ProductElement?> getSingleProduct(var id) async {
@@ -49,6 +48,49 @@ class ProductService {
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  Future<List<ProductElement>?> getProductsOfCategory(String category) async {
+    String categoryUrl = "$apiUrl/products/category/$category";
+    try {
+      final response = await dio.get<String>(categoryUrl);
+      if (response.statusCode == 200) {
+        var products = productFromJson(response.data!);
+        return products.products;
+      }
+    } catch (e) {
+      throw Exception();
+    }
+  }
+
+  Future<List<ProductElement>> searchProducts(String query) async {
+    String searchUrl = "$url/search?q=$query";
+    try {
+      final response = await dio.get<String>(searchUrl);
+
+      if (response.statusCode == 200) {
+        var products = productFromJson(response.data!);
+        return products.products;
+      } else {
+        debugPrint("Else dusdu");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+    return [
+      ProductElement(
+          brand: '',
+          category: '',
+          description: '',
+          discountPercentage: 0,
+          id: 0,
+          images: [],
+          price: 0,
+          rating: 0,
+          stock: 0,
+          thumbnail: '',
+          title: '')
+    ];
   }
 
   // Future addProduct(
