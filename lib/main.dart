@@ -3,9 +3,11 @@ import 'package:flutter_ecommerce/constant/color.dart';
 import 'package:flutter_ecommerce/pages/enterance_page.dart';
 import 'package:flutter_ecommerce/pages/home_page.dart';
 import 'package:flutter_ecommerce/pages/login_page.dart';
+import 'package:flutter_ecommerce/pages/post_page.dart';
 import 'package:flutter_ecommerce/pages/product_detail_page.dart';
 import 'package:flutter_ecommerce/pages/profile_page.dart';
 import 'package:flutter_ecommerce/pages/search_page.dart';
+import 'package:flutter_ecommerce/pages/your_post_page.dart';
 import 'package:flutter_ecommerce/widgets/tab.dart';
 
 void main() => runApp(const MyApp());
@@ -48,6 +50,8 @@ class MyApp extends StatelessWidget {
         '/search_page': (context) => SearchPage(),
         '/profile_page': (context) => const ProfilePage(),
         '/enterance_page': (context) => const EnterancePage(),
+        '/post_page': (context) => const PostPage(),
+        '/your_post_page': (context) => const YourPostPage(),
       },
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_ecommerce/model/login_model.dart';
 import 'package:flutter_ecommerce/pages/cart_page.dart';
 import 'package:flutter_ecommerce/pages/enterance_page.dart';
 import 'package:flutter_ecommerce/pages/login_page.dart';
+import 'package:flutter_ecommerce/pages/post_page.dart';
 import 'package:flutter_ecommerce/pages/search_page.dart';
 
 import '../pages/home_page.dart';
@@ -29,7 +30,7 @@ class _TabBarWidgetState extends State<TabBarWidget> {
       HomePage(user: user),
       SearchPage(),
       CartPage(user: user),
-      const LoginPage(),
+      PostPage(user: user),
     ];
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
