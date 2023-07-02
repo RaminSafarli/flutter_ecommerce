@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/constant/color.dart';
+import 'package:flutter_ecommerce/model/login_model.dart';
 import 'package:flutter_ecommerce/model/product_model.dart';
 import 'package:flutter_ecommerce/service/category_service.dart';
 import 'package:flutter_ecommerce/service/product_service.dart';
 import 'package:flutter_ecommerce/widgets/product_card.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final Login? user;
+
+  const HomePage({Key? key, this.user}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -47,6 +50,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Color(primaryColor),
       body: Stack(
         children: [
@@ -77,7 +81,8 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Codelandia Shop Center",
+                      // "Codelandia Shop Center",
+                      "Hello, ${widget.user?.firstName}",
                       style:
                           Theme.of(context).textTheme.headlineSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
@@ -85,12 +90,18 @@ class _HomePageState extends State<HomePage> {
                                 color: Colors.white,
                               ),
                     ),
-                    const Row(
+                    Row(
                       children: [
                         IconButton(
                           padding: EdgeInsets.zero,
-                          onPressed: null,
-                          icon: Icon(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/profile_page',
+                              arguments: {'user': widget.user},
+                            );
+                          },
+                          icon: const Icon(
                             Icons.account_circle,
                             size: 30,
                             color: Colors.white,
@@ -129,11 +140,13 @@ class _HomePageState extends State<HomePage> {
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.pushNamed(
-                                        context, '/product_detail_page',
-                                        arguments: {
-                                          'title': product.title,
-                                          'product': product,
-                                        });
+                                      context,
+                                      '/product_detail_page',
+                                      arguments: {
+                                        'title': product.title,
+                                        'product': product,
+                                      },
+                                    );
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),

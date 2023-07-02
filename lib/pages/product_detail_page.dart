@@ -20,6 +20,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     final ProductElement product = arguments['product'] as ProductElement;
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text('Product Detail'),
       ),

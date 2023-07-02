@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/model/login_model.dart';
+import 'package:flutter_ecommerce/pages/cart_page.dart';
 import 'package:flutter_ecommerce/pages/enterance_page.dart';
 import 'package:flutter_ecommerce/pages/login_page.dart';
 import 'package:flutter_ecommerce/pages/search_page.dart';
@@ -13,23 +15,30 @@ class TabBarWidget extends StatefulWidget {
 }
 
 class _TabBarWidgetState extends State<TabBarWidget> {
-  List<Widget> pages = [
-    const HomePage(),
-    SearchPage(),
-    const EnterancePage(),
-    const LoginPage(),
-  ];
   int _item = 0;
   @override
   Widget build(BuildContext context) {
+    // Retrieve the arguments
+    final Map<String, dynamic> arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+    // Extract the individual arguments
+    final Login user = arguments['user'] as Login;
+
+    List<Widget> pages = [
+      HomePage(user: user),
+      SearchPage(),
+      CartPage(user: user),
+      const LoginPage(),
+    ];
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.library_music), label: "Library"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+                icon: Icon(Icons.shopping_basket), label: "Cart"),
+            BottomNavigationBarItem(icon: Icon(Icons.podcasts), label: "Post"),
           ],
           currentIndex: _item,
           onTap: (value) => {

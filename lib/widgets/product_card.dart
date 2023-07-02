@@ -23,7 +23,7 @@ class ProductCard extends StatelessWidget {
               product.images[0],
               height: 150,
               width: MediaQuery.of(context).size.width * 0.5,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
             const SizedBox(height: 8),
             Text(

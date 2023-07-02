@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/constant/color.dart';
+import 'package:flutter_ecommerce/pages/enterance_page.dart';
 import 'package:flutter_ecommerce/pages/home_page.dart';
 import 'package:flutter_ecommerce/pages/login_page.dart';
 import 'package:flutter_ecommerce/pages/product_detail_page.dart';
+import 'package:flutter_ecommerce/pages/profile_page.dart';
 import 'package:flutter_ecommerce/pages/search_page.dart';
 import 'package:flutter_ecommerce/widgets/tab.dart';
 
@@ -35,13 +37,17 @@ class MyApp extends StatelessWidget {
       // home: const EnterancePage(),
       home: Scaffold(
         backgroundColor: Color(primaryColor),
-        body: const TabBarWidget(),
+        // body: const TabBarWidget(),
+        body: const EnterancePage(),
       ),
       routes: {
+        '/tabbar_widget': (context) => const TabBarWidget(),
         '/login_page': (context) => const LoginPage(),
         '/home_page': (context) => const HomePage(),
         '/product_detail_page': (context) => const ProductDetailPage(),
         '/search_page': (context) => SearchPage(),
+        '/profile_page': (context) => const ProfilePage(),
+        '/enterance_page': (context) => const EnterancePage(),
       },
     );
   }
